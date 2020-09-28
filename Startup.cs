@@ -13,10 +13,15 @@ namespace ServerlessTelegramBot
     public class Startup : IWebJobsStartup
     {
         public void Configure(IWebJobsBuilder builder)
-        {                   
-            var botClient = new TelegramBotClient(Environment.GetEnvironmentVariable("TelegramApiKey"));
-            botClient.SetWebhookAsync($"{Environment.GetEnvironmentVariable("TunnelAddress")}/api/TelegramBotWebHook").Wait();           
-            var eventGridClient = new EventGridClient(new TopicCredentials(Environment.GetEnvironmentVariable("EventGridTopicApiKey")));
+        {             
+            ITelegramBotClient botClient = null;
+            var eventGridClient = new EventGridClient(new TopicCredentials(Environment.GetEnvironmentVariable("EventGridTopicApiKey")));          
+
+            botClient = new TelegramBotClient(Environment.GetEnvironmentVariable("TelegramApiKey"));
+
+            if(!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("Webhookaddress"))){
+                botClient.SetWebhookAsync($"{Environment.GetEnvironmentVariable("Webhookaddress")}/api/TelegramBotWebHook/{Environment.GetEnvironmentVariable("WebhookParameters")}").Wait();
+            }                      
             builder.Services.AddSingleton<ITelegramBotClient>(botClient); 
             builder.Services.AddSingleton<IEventGridClient>(eventGridClient);          
         }
