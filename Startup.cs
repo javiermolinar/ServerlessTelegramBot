@@ -14,16 +14,17 @@ namespace ServerlessTelegramBot
     {
         public void Configure(IWebJobsBuilder builder)
         {             
-            ITelegramBotClient botClient = null;
-            var eventGridClient = new EventGridClient(new TopicCredentials(Environment.GetEnvironmentVariable("EventGridTopicApiKey")));          
+            var eventGridClient = new EventGridClient(new TopicCredentials(Environment.GetEnvironmentVariable("EventGridTopicApiKey")));
 
-            botClient = new TelegramBotClient(Environment.GetEnvironmentVariable("TelegramApiKey"));
+            ITelegramBotClient botClient = new TelegramBotClient(Environment.GetEnvironmentVariable("TelegramApiKey"));
 
-            if(!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("Webhookaddress"))){
-                botClient.SetWebhookAsync($"{Environment.GetEnvironmentVariable("Webhookaddress")}/api/TelegramBotWebHook/{Environment.GetEnvironmentVariable("WebhookParameters")}").Wait();
-            }                      
-            builder.Services.AddSingleton<ITelegramBotClient>(botClient); 
-            builder.Services.AddSingleton<IEventGridClient>(eventGridClient);          
+            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("Webhookaddress")))
+            {
+                botClient.SetWebhookAsync($"{Environment.GetEnvironmentVariable("Webhookaddress")}").Wait();
+            }
+
+            builder.Services.AddSingleton(botClient);
+            builder.Services.AddSingleton<IEventGridClient>(eventGridClient);
         }
     }
 }

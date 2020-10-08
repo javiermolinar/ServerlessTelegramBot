@@ -25,13 +25,13 @@ namespace ServerlessTelegramBot
         {
                await botClient.SendTextMessageAsync(
                chatId: new Telegram.Bot.Types.ChatId(eventGridEvent.Id),
-               text: $"{eventGridEvent.Data} esta en cocina");
+               text: $"Your order of {eventGridEvent.Data} is in the kitchen");
 
                Thread.Sleep(5000);
 
                await botClient.SendTextMessageAsync(
                chatId: new Telegram.Bot.Types.ChatId(eventGridEvent.Id),
-               text: $"{eventGridEvent.Data} esta en camino");               
+               text: $"Your order of {eventGridEvent.Data} is on it's way");               
         }
     }
 }

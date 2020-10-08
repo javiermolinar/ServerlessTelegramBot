@@ -56,7 +56,7 @@ namespace TelegramBot
             await eGClient.PublishEventsAsync(topicHostname, new List<EventGridEvent>() { GetEventGridEventForOrder(order, chat.Identifier) });
             await botClient.SendTextMessageAsync(
                chatId: chat,
-               text: $"Tu pedido de {order} ha sido procesado");
+               text: $"Your order of {order} has been processed");
         }
 
         private static EventGridEvent GetEventGridEventForOrder(string order, long chatId) =>
@@ -73,12 +73,12 @@ namespace TelegramBot
         private async Task HandleUnexpectedMessageAsync(ChatId chat){
             await botClient.SendTextMessageAsync(
                chatId: chat,
-               text: "Perdona no te he entendido:\n" + menu);
+               text: "Sorry but I don't understand you");
         }
 
         private async Task HandleStartAsync(ChatId chat) =>
           await botClient.SendTextMessageAsync(
                chatId: chat,
-               text: "Para pedir cualquier plato del menu escribe /order seguido del nombre del plato:\n" + menu);        
+               text: "To order any goodie just type /order following by the name of the dish :\n" + menu);        
     }
 }
